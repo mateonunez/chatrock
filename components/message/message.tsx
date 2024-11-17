@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 // import type { Vote } from '@/lib/db/schema';
 import type { PureMessage } from '../chat/chat';
-// import type { ChatUIBlock } from '../chat/chat.block';
 import { cn } from '@/lib/utils';
 import { SparklesIcon } from '../ui/icons';
 import { Markdown } from '../markdown';
@@ -43,86 +42,15 @@ export const PreviewMessage = ({
         )}
 
         <div className="flex flex-col gap-2 w-full">
-          {message.content && (
+          {message.content && typeof message.content === 'string' ? (
             <div className="flex flex-col gap-4">
-              <Markdown>{message.content as string}</Markdown>
+              <Markdown>{(message.content as string) ?? ''}</Markdown>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4 text-muted-foreground">
+              Message type not supported
             </div>
           )}
-          {/* 
-          {message.toolInvocations && message.toolInvocations.length > 0 && (
-            <div className="flex flex-col gap-4">
-              {message.toolInvocations.map((toolInvocation) => {
-                const { toolName, toolCallId, state, args } = toolInvocation;
-
-                if (state === 'result') {
-                  const { result } = toolInvocation;
-
-                  return (
-                    <div key={toolCallId}>
-                      {toolName === 'getWeather' ? (
-                        <Weather weatherAtLocation={result} />
-                      ) : toolName === 'createDocument' ? (
-                        <DocumentToolResult
-                          type="create"
-                          result={result}
-                          block={block}
-                          setBlock={setBlock}
-                        />
-                      ) : toolName === 'updateDocument' ? (
-                        <DocumentToolResult
-                          type="update"
-                          result={result}
-                          block={block}
-                          setBlock={setBlock}
-                        />
-                      ) : toolName === 'requestSuggestions' ? (
-                        <DocumentToolResult
-                          type="request-suggestions"
-                          result={result}
-                          block={block}
-                          setBlock={setBlock}
-                        />
-                      ) : (
-                        <pre>{JSON.stringify(result, null, 2)}</pre>
-                      )}
-                    </div>
-                  );
-                }
-                return (
-                  <div
-                    key={toolCallId}
-                    className={cn({
-                      skeleton: ['getWeather'].includes(toolName),
-                    })}
-                  >
-                    {toolName === 'getWeather' ? (
-                      <Weather />
-                    ) : toolName === 'createDocument' ? (
-                      <DocumentToolCall type="create" args={args} />
-                    ) : toolName === 'updateDocument' ? (
-                      <DocumentToolCall type="update" args={args} />
-                    ) : toolName === 'requestSuggestions' ? (
-                      <DocumentToolCall
-                        type="request-suggestions"
-                        args={args}
-                      />
-                    ) : null}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {message.experimental_attachments && (
-            <div className="flex flex-row gap-2">
-              {message.experimental_attachments.map((attachment) => (
-                <PreviewAttachment
-                  key={attachment.url}
-                  attachment={attachment}
-                />
-              ))}
-            </div>
-          )} */}
 
           <MessageActions
             key={`action-${message.id}`}

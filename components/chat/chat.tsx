@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useSWRConfig } from 'swr';
-import { useWindowSize } from 'usehooks-ts';
 import { useScrollToBottom } from '@/hooks/use-scroll-to-bottom';
 import { Overview } from '../overview';
 import type { ModelId } from '@/lib/ai/models';
@@ -22,11 +21,13 @@ export type JSONValue =
     }
   | Array<JSONValue>;
 
+export type Role = 'system' | 'user' | 'assistant' | 'tool';
+
 export interface PureMessage {
   id: string;
   createdAt?: Date;
-  content: string;
-  role: 'system' | 'user' | 'assistant';
+  content: string | unknown;
+  role: Role;
   data?: JSONValue;
   annotations?: Array<JSONValue>;
   toolInvocations?: Array<ToolInvocation>;
@@ -70,8 +71,8 @@ export interface ChatProps {
 
 export function Chat({ id, initialMessages, selectedModelId }: ChatProps) {
   const { mutate } = useSWRConfig();
-  const { width: windowWidth = 1920, height: windowHeight = 1080 } =
-    useWindowSize();
+  // const { width: windowWidth = 1920, height: windowHeight = 1080 } =
+  //   useWindowSize();
 
   const [messages, setMessages] = useState<PureMessage[]>(initialMessages);
   const [input, setInput] = useState('');
@@ -104,7 +105,7 @@ export function Chat({ id, initialMessages, selectedModelId }: ChatProps) {
     const message: PureMessage = {
       id: generateUUID(),
       createdAt: new Date(),
-      role: 'user',
+      role: 'user' as Role,
       content,
     };
 
@@ -130,7 +131,7 @@ export function Chat({ id, initialMessages, selectedModelId }: ChatProps) {
       append({
         id: generateUUID(),
         content: data.message.content[0].text,
-        role: 'assistant',
+        role: 'assistant' as Role,
       });
     }
 

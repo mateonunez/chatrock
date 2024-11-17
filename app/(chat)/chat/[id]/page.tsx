@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
 import { auth } from '@/app/(auth)/auth.handler';
-import { Chat as PreviewChat } from '@/components/chat/chat';
+import { Chat as PreviewChat, type PureMessage } from '@/components/chat/chat';
 import { convertToUIMessages } from '@/lib/utils';
 
 export default async function SingleChatPage(props: {
@@ -38,7 +38,9 @@ export default async function SingleChatPage(props: {
     models.find((model) => model.id === modelIdFromCookie)?.id ||
     DEFAULT_MODEL_NAME;
 
-  const convertedMessages = convertToUIMessages(messagesFromDb);
+  const convertedMessages = convertToUIMessages(
+    messagesFromDb,
+  ) as PureMessage[];
 
   return (
     <PreviewChat
