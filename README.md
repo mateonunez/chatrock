@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/a7291408-c9d6-4ca2-af97-76bb5e153790
 #### Clone the repository
 
 ```bash
-git clone https://github.com/mateonunez/ai-chatbot-nextjs-bedrock.git
+git clone https://github.com/mateonunez/chatrock.git
 ```
 
 #### Prepare the environment
