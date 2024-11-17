@@ -2,8 +2,6 @@
 
 import { motion } from 'framer-motion';
 
-const currentYear = new Date().getFullYear();
-
 export default function Footer(): JSX.Element {
   return (
     <motion.footer

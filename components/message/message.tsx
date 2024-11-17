@@ -1,26 +1,19 @@
 'use client';
 
 import { motion } from 'framer-motion';
-// import type { Vote } from '@/lib/db/schema';
-import type { PureMessage } from '../chat/chat';
 import { cn } from '@/lib/utils';
 import { SparklesIcon } from '../ui/icons';
 import { Markdown } from '../markdown';
 import { MessageActions } from './actions.message';
+import type { ChatrockMessage } from '@/types/chat.types';
 
 export const PreviewMessage = ({
   chatId,
   message,
-  // block,
-  // setBlock,
-  // vote,
   isLoading,
 }: {
   chatId: string;
-  message: PureMessage;
-  // block: ChatUIBlock;
-  // setBlock: Dispatch<SetStateAction<ChatUIBlock>>;
-  // vote: Vote | undefined;
+  message: ChatrockMessage;
   isLoading: boolean;
 }) => {
   return (
@@ -42,23 +35,15 @@ export const PreviewMessage = ({
         )}
 
         <div className="flex flex-col gap-2 w-full">
-          {message.content && typeof message.content === 'string' ? (
+          {message.content && typeof message.content[0].text === 'string' ? (
             <div className="flex flex-col gap-4">
-              <Markdown>{(message.content as string) ?? ''}</Markdown>
+              <Markdown>{(message.content[0].text as string) ?? ''}</Markdown>
             </div>
           ) : (
-            <div className="flex flex-col gap-4 text-muted-foreground">
-              Message type not supported
-            </div>
+            <div className="flex flex-col gap-4 text-muted-foreground">Message type not supported</div>
           )}
 
-          <MessageActions
-            key={`action-${message.id}`}
-            chatId={chatId}
-            message={message}
-            // vote={vote}
-            isLoading={isLoading}
-          />
+          <MessageActions key={`action-${message.role}-`} chatId={chatId} message={message} isLoading={isLoading} />
         </div>
       </div>
     </motion.div>
@@ -88,9 +73,7 @@ export const ThinkingMessage = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Thinking...
-          </div>
+          <div className="flex flex-col gap-4 text-muted-foreground">Thinking...</div>
         </div>
       </div>
     </motion.div>

@@ -12,11 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/sidebar/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/sidebar/sidebar';
 
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();
@@ -38,14 +34,8 @@ export function SidebarUserNav({ user }: { user: User }) {
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side="top"
-            className="w-[--radix-popper-anchor-width]"
-          >
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            >
+          <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
+            <DropdownMenuItem className="cursor-pointer" onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
               {`Toggle ${theme === 'light' ? 'dark' : 'light'} mode`}
             </DropdownMenuItem>
             <DropdownMenuSeparator />

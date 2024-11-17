@@ -44,10 +44,7 @@ export function ChatHeader({ selectedModelId }: { selectedModelId: ModelId }) {
         </BetterTooltip>
       )}
 
-      <ModelSelector
-        selectedModelId={selectedModelId}
-        className="order-1 md:order-2"
-      />
+      <ModelSelector selectedModelId={selectedModelId} className="order-1 md:order-2" />
     </header>
   );
 }

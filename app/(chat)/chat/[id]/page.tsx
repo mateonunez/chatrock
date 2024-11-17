@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
 import { auth } from '@/app/(auth)/auth.handler';
-import { Chat as PreviewChat, type PureMessage } from '@/components/chat/chat';
-import { convertToUIMessages } from '@/lib/utils';
+import { Chat as PreviewChat } from '@/components/chat/chat';
+import type { ChatrockMessage, ChatrockRole } from '@/types/chat.types';
 
 export default async function SingleChatPage(props: {
   params: Promise<{ id: string }>;
@@ -31,22 +31,14 @@ export default async function SingleChatPage(props: {
   const messagesFromDb = await getMessagesByChatId({
     chatId: id,
   });
+  const convertedMessages: ChatrockMessage[] = messagesFromDb.map((message) => ({
+    role: message.role as ChatrockRole,
+    content: [{ text: message.content as string }],
+  }));
 
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get('model-id')?.value;
-  const selectedModelId =
-    models.find((model) => model.id === modelIdFromCookie)?.id ||
-    DEFAULT_MODEL_NAME;
+  const selectedModelId = models.find((model) => model.id === modelIdFromCookie)?.id || DEFAULT_MODEL_NAME;
 
-  const convertedMessages = convertToUIMessages(
-    messagesFromDb,
-  ) as PureMessage[];
-
-  return (
-    <PreviewChat
-      id={chat.id}
-      initialMessages={convertedMessages}
-      selectedModelId={selectedModelId}
-    />
-  );
+  return <PreviewChat id={chat.id} initialMessages={convertedMessages} selectedModelId={selectedModelId} />;
 }

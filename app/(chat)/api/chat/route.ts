@@ -1,19 +1,10 @@
-import { models } from '@/lib/ai/models';
 import { auth } from '@/app/(auth)/auth.handler';
-import { generateUUID, getMostRecentUserMessage } from '@/lib/utils';
-import {
-  getChatById,
-  saveChat,
-  type SaveChatParams,
-  saveMessages,
-} from '@/lib/db/queries';
-import {
-  ConverseCommand,
-  type ConverseCommandOutput,
-  type Message,
-} from '@aws-sdk/client-bedrock-runtime';
+import { findModelById, generateUUID, getMostRecentUserMessage } from '@/lib/utils';
+import { getChatById, saveChat, type SaveChatParams, saveMessages } from '@/lib/db/queries';
+import { ConverseCommand, type ConverseCommandOutput, type Message } from '@aws-sdk/client-bedrock-runtime';
 import { bedrockRuntimeClient } from '@/lib/ai/bedrock.client';
-import { generateTitleFromUserMessage } from '../../chat.actions';
+import { generateTitleFromUserMessage } from '@/app/(chat)/chat.actions';
+import type { ChatrockMessage } from '@/types/chat.types';
 
 export async function POST(request: Request) {
   const { id, messages, modelId } = await request.json();
@@ -23,7 +14,7 @@ export async function POST(request: Request) {
     return new Response('Unauthorized', { status: 401 });
   }
 
-  const model = models.find((model) => model.id === modelId);
+  const model = findModelById(modelId);
   if (!model) {
     return new Response('Model not found', { status: 404 });
   }
@@ -51,39 +42,21 @@ export async function POST(request: Request) {
         id: generateUUID(),
         createdAt: new Date(),
         chatId: id,
+        role: userMessage.role || 'unknown',
       },
     ],
   });
 
-  /*
-    AWS Bedrock here
-  */
-
   const message = userMessage as unknown as Message;
   const command: ConverseCommand = new ConverseCommand({
     modelId: model.apiIdentifier,
-    messages: messages.map((message: Message) => ({
-      role: message.role,
-      content: [{ text: message.content }],
-    })),
+    messages: [
+      {
+        role: message.role,
+        content: [{ text: message.content }],
+      } as ChatrockMessage,
+    ],
   });
-
-  // const result = {
-  //   id: "aitxt-Qe6d7UjQMSIDw7C7BCSrsIhn",
-  //   timestamp: "2024-11-16T16:20:27.558Z",
-  //   modelId: "amazon.titan-text-express-v1",
-  //   messages: [
-  //     {
-  //       role: "assistant",
-  //       content: [
-  //         {
-  //           type: "text",
-  //           text: "Amazon S3, a storage service offered by Amazon Web Services (AWS), is a part of the Amazon Web Services suite. It provides an object store that allows users to upload, store, and retrieve data objects. S3 is a highly scalable, reliable, and cost-effective storage solution that is widely used by individuals, businesses, and organizations for a variety of purposes, such as hosting websites, storing backup data, and distributing content.\n\nTo deploy S3, you can follow these general steps:\n\n1. Sign up for an AWS account: If you don't have an AWS account, you'll need",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // };
 
   let result: ConverseCommandOutput;
   try {

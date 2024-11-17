@@ -13,15 +13,10 @@ export const authConfig: NextAuthConfig = {
   },
   providers: [],
   callbacks: {
-    authorized({
-      auth,
-      request: { nextUrl },
-    }: { auth: any; request: { nextUrl: URL } }) {
+    authorized({ auth, request: { nextUrl } }: { auth: any; request: { nextUrl: URL } }) {
       const isLoggedIn = !!auth?.user;
       const isOnChatPage = nextUrl.pathname.startsWith(DEFAULT_CHAT_PAGE);
-      const isOnRegisterPage = nextUrl.pathname.startsWith(
-        DEFAULT_REGISTER_PAGE,
-      );
+      const isOnRegisterPage = nextUrl.pathname.startsWith(DEFAULT_REGISTER_PAGE);
       const isOnLoginPage = nextUrl.pathname.startsWith(DEFAULT_LOGIN_PAGE);
 
       if (isLoggedIn && (isOnLoginPage || isOnRegisterPage)) {

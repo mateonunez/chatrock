@@ -1,12 +1,8 @@
-import NextAuth, { type User, type Session } from 'next-auth';
+import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { getUser } from '@/lib/db/queries';
 import { compare } from 'bcrypt-ts';
-
-interface ExtendedSessions extends Session {
-  user: User;
-}
 
 export const {
   handlers: { GET, POST },
