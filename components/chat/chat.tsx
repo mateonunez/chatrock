@@ -34,14 +34,19 @@ export function Chat({ id, initialMessages, selectedModelId }: ChatProps) {
 
     let content = input;
     if (!input && options.message) {
-      setInput(options.message.content);
-      content = options.message.content;
+      setInput(options.message.content[0].text);
+      content = options.message.content[0].text;
     }
 
     const message: ChatrockMessage = {
       role: 'user' as ChatrockRole,
       content: [{ text: content }],
     };
+
+    console.log('Message from the user:', message);
+
+    setMessages((messages) => [...messages, message]);
+    setInput('');
 
     const messagePayload: Message = {
       id: generateUUID(),
@@ -51,8 +56,7 @@ export function Chat({ id, initialMessages, selectedModelId }: ChatProps) {
       createdAt: new Date(),
     };
 
-    setMessages((messages) => [...messages, message]);
-    setInput('');
+    console.log('messagePayload:', messagePayload);
 
     const response = await fetch('/api/chat', {
       method: 'POST',
@@ -73,6 +77,7 @@ export function Chat({ id, initialMessages, selectedModelId }: ChatProps) {
         role: 'assistant',
         content: [{ text: data.message.content[0].text }],
       };
+      console.log('Message from the assistant to append:', messageToAppend);
       append(messageToAppend);
     }
 

@@ -3,7 +3,6 @@ import { findModelById, generateUUID, getMostRecentUserMessage } from '@/lib/uti
 import { getChatById, saveChat, type SaveChatParams, saveMessages } from '@/lib/db/queries';
 import { ConverseCommand, type ConverseCommandOutput, type Message } from '@aws-sdk/client-bedrock-runtime';
 import { bedrockRuntimeClient } from '@/lib/ai/bedrock.client';
-import { generateTitleFromUserMessage } from '@/app/(chat)/chat.actions';
 import type { ChatrockMessage } from '@/types/chat.types';
 
 export async function POST(request: Request) {
@@ -26,7 +25,8 @@ export async function POST(request: Request) {
 
   const chat = await getChatById({ chatId: id });
   if (!chat) {
-    const title = await generateTitleFromUserMessage({ message: userMessage });
+    // const title = await generateTitleFromUserMessage({ message: userMessage });
+    const title = `Chat at ${new Date().toLocaleString()}`;
     const payload: SaveChatParams = {
       id,
       title,
