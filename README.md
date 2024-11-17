@@ -4,7 +4,7 @@
 
 This is a simple AI chatbot built with Next.js and Bedrock
 
-https://github.com/user-attachments/assets/a7291408-c9d6-4ca2-af97-76bb5e153790
+[![Watch the video](https://github.com/user-attachments/assets/a7291408-c9d6-4ca2-af97-76bb5e153790)](https://github.com/user-attachments/assets/a7291408-c9d6-4ca2-af97-76bb5e153790)
 
 ### Features
 
