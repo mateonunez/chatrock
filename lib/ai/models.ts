@@ -55,8 +55,7 @@ export const models: Array<Model> = [
     id: 'mistral.mixtral-8x7b-instruct-v0:1',
     label: 'Mistral Mixtral 8x7B Instruct v0.1',
     apiIdentifier: 'mistral.mixtral-8x7b-instruct-v0:1',
-    description:
-      'An ensemble model combining multiple 7B models to enhance instruction-following capabilities.',
+    description: 'An ensemble model combining multiple 7B models to enhance instruction-following capabilities.',
   },
 ] as const;
 

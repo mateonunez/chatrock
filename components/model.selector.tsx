@@ -21,22 +21,15 @@ export function ModelSelector({
   selectedModelId: string;
 } & React.ComponentProps<typeof Button>) {
   const [open, setOpen] = useState(false);
-  const [optimisticModelId, setOptimisticModelId] =
-    useOptimistic(selectedModelId);
+  const [optimisticModelId, setOptimisticModelId] = useOptimistic(selectedModelId);
 
-  const selectModel = useMemo(
-    () => models.find((model) => model.id === optimisticModelId),
-    [optimisticModelId],
-  );
+  const selectModel = useMemo(() => models.find((model) => model.id === optimisticModelId), [optimisticModelId]);
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
         asChild
-        className={cn(
-          'w-fit data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
-          className,
-        )}
+        className={cn('w-fit data-[state=open]:bg-accent data-[state=open]:text-accent-foreground', className)}
       >
         <Button variant="outline" className="md:px-2 md:h-[34px]">
           {selectModel?.label}
@@ -61,11 +54,7 @@ export function ModelSelector({
           >
             <div className="flex flex-col gap-1 items-start">
               {model.label}
-              {model.description && (
-                <div className="text-xs text-muted-foreground">
-                  {model.description}
-                </div>
-              )}
+              {model.description && <div className="text-xs text-muted-foreground">{model.description}</div>}
             </div>
             <div className="text-primary dark:text-primary-foreground opacity-0 group-data-[active=true]/item:opacity-100">
               <CheckCirclFillIcon />

@@ -17,12 +17,11 @@ export const Overview = () => {
         </div>
         <h1 className="text-2xl font-bold">Welcome to Chatrock.js!</h1>
         <p className="text-muted-foreground">
-          Say hello to your new AI assistant! Chatrock.js is here to
-          help—whether you’ve got questions, need ideas, or just want to chat.
+          Say hello to your new AI assistant! Chatrock.js is here to help—whether you’ve got questions, need ideas, or
+          just want to chat.
         </p>
         <p className="text-muted-foreground">
-          Just type your message below and hit Enter. It’s that simple. Let’s
-          get started!
+          Just type your message below and hit Enter. It’s that simple. Let’s get started!
         </p>
       </div>
     </motion.div>
