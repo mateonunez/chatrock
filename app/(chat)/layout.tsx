@@ -15,7 +15,7 @@ export default async function ChatLayout({
   return (
     <SidebarProvider defaultOpen={!isCollasped}>
       <AppSidebar user={session?.user} />
-      <div className="lg:flex lg:flex-col lg:flex-1 max-w-full overflow-x-hidden">
+      <div className="md:flex md:flex-col md:flex-1 max-w-full overflow-x-hidden">
         <SidebarInset>{children}</SidebarInset>
         <Footer />
       </div>

@@ -11,6 +11,7 @@ export async function saveModelId(model: string) {
   cookieStore.set('model-id', model);
 }
 
+// TODO: refactor
 export async function generateTitleFromUserMessage({
   message,
 }: {
@@ -33,7 +34,13 @@ export async function generateTitleFromUserMessage({
               // - you will generate a short title based on the first message a user begins a conversation with
               // - ensure it is not more than 80 characters long
               // - the title should be a summary of the user's message
-              // - do not use quotes or colons: ${JSON.stringify(message)}`,
+              // - do not use quotes or colons:
+              // - do not use the user's name
+              //
+              // Example:
+              // User: I need help with my order
+              // Title: Order help request
+              // Message: ${message.content?.[0]?.text || 'No message content'}`,
             },
           ],
         },

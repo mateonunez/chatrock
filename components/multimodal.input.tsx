@@ -20,7 +20,7 @@ const suggestedActions = [
   },
   {
     title: 'What is this?',
-    label: 'Learn more about the chat and the knowledge base',
+    label: 'Learn more about the chat and the knowledge',
     action: 'What is this?',
   },
 ];
@@ -106,7 +106,7 @@ export function MultimodalInput({
   return (
     <div className="relative w-full flex flex-col gap-4">
       {messages.length === 0 && (
-        <div className="grid sm:grid-cols-2 gap-2 w-full">
+        <div className="w-full gap-2 flex flex-col">
           {suggestedActions.map((suggestedAction, index) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -114,7 +114,7 @@ export function MultimodalInput({
               exit={{ opacity: 0, y: 20 }}
               transition={{ delay: 0.05 * index }}
               key={`suggested-action-${suggestedAction.title}-${index}`}
-              className={index > 1 ? 'hidden sm:block' : 'block'}
+              className={index > 1 ? 'hidden sm:block max-w-full' : 'max-w-full block'}
             >
               <Button
                 variant="ghost"
@@ -133,7 +133,11 @@ export function MultimodalInput({
                 className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
               >
                 <span className="font-medium">{suggestedAction.title}</span>
-                <span className="text-muted-foreground">{suggestedAction.label}</span>
+                <span className="text-muted-foreground break-words">
+                  {suggestedAction.label.length > 33
+                    ? `${suggestedAction.label.slice(0, 33)}...`
+                    : suggestedAction.label}
+                </span>
               </Button>
             </motion.div>
           ))}
