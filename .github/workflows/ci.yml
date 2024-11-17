@@ -23,10 +23,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run:
+        run: pnpm install
 
-      - name: Run linter
-        run: npm run lint
+      - name: Lint
+        run: pnpm lint:ci && pnpm format:ci
 
-      - name: Run format
-        run: npm run format
+      - name: Build
+        run: pnpm build
