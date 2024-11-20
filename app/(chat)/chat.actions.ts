@@ -48,7 +48,7 @@ export async function generateTitleFromUserMessage({
     });
 
     const result = await bedrockRuntimeClient.send(command);
-    title = result.output?.message?.content?.[0]?.text || `Chat at ${new Date().toLocaleString()}`;
+    title = result.output?.message?.content?.[0]?.text || title;
   }
 
   return title;
